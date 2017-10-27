@@ -1,0 +1,42 @@
+[0]name=HP Truevision HD,size=640x480,fps=30
+[1]name=HP Truevision HD,size=176x144,fps=30
+[2]name=HP Truevision HD,size=320x240,fps=30
+[3]name=HP Truevision HD,size=352x288,fps=30
+[4]name=HP Truevision HD,size=640x360,fps=30
+[5]name=HP Truevision HD,size=1280x720,fps=10
+[6]name=HP Truevision HD,size=640x480,fps=30
+[7]name=HP Truevision HD,size=176x144,fps=30
+[8]name=HP Truevision HD,size=320x240,fps=30
+[9]name=HP Truevision HD,size=352x288,fps=30
+[10]name=HP Truevision HD,size=640x360,fps=30
+[11]name=HP Truevision HD,size=1280x720,fps=30
+[12]name=CyberLink WebCam Virtual Driver 6.0,size=320x240,fps=5
+[13]name=CyberLink WebCam Virtual Driver 6.0,size=320x240,fps=30
+[14]name=CyberLink WebCam Virtual Driver 6.0,size=640x360,fps=5
+[15]name=CyberLink WebCam Virtual Driver 6.0,size=640x360,fps=30
+[16]name=CyberLink WebCam Virtual Driver 6.0,size=640x480,fps=5
+[17]name=CyberLink WebCam Virtual Driver 6.0,size=640x480,fps=30
+[18]name=CyberLink WebCam Virtual Driver 6.0,size=160x120,fps=5
+[19]name=CyberLink WebCam Virtual Driver 6.0,size=160x120,fps=30
+[20]name=CyberLink WebCam Virtual Driver 6.0,size=800x600,fps=5
+[21]name=CyberLink WebCam Virtual Driver 6.0,size=800x600,fps=30
+[22]name=CyberLink WebCam Virtual Driver 6.0,size=1280x720,fps=5
+[23]name=CyberLink WebCam Virtual Driver 6.0,size=1280x720,fps=30
+[24]name=CyberLink WebCam Virtual Driver 6.0,size=1280x960,fps=5
+[25]name=CyberLink WebCam Virtual Driver 6.0,size=1600x900,fps=5
+[26]name=CyberLink WebCam Virtual Driver 6.0,size=1600x1200,fps=5
+[27]name=CyberLink WebCam Virtual Driver 6.0,size=320x240,fps=5
+[28]name=CyberLink WebCam Virtual Driver 6.0,size=320x240,fps=30
+[29]name=CyberLink WebCam Virtual Driver 6.0,size=640x360,fps=5
+[30]name=CyberLink WebCam Virtual Driver 6.0,size=640x360,fps=30
+[31]name=CyberLink WebCam Virtual Driver 6.0,size=640x480,fps=5
+[32]name=CyberLink WebCam Virtual Driver 6.0,size=640x480,fps=30
+[33]name=CyberLink WebCam Virtual Driver 6.0,size=160x120,fps=5
+[34]name=CyberLink WebCam Virtual Driver 6.0,size=160x120,fps=30
+[35]name=CyberLink WebCam Virtual Driver 6.0,size=800x600,fps=5
+[36]name=CyberLink WebCam Virtual Driver 6.0,size=800x600,fps=30
+[37]name=CyberLink WebCam Virtual Driver 6.0,size=1280x720,fps=5
+[38]name=CyberLink WebCam Virtual Driver 6.0,size=1280x720,fps=30
+[39]name=CyberLink WebCam Virtual Driver 6.0,size=1280x960,fps=5
+[40]name=CyberLink WebCam Virtual Driver 6.0,size=1600x900,fps=5
+[41]name=CyberLink WebCam Virtual Driver 6.0,size=1600x1200,fps=5
