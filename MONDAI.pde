@@ -1,11 +1,11 @@
 class MONDAI{
   PImage im;
   
-  MONDAI(String fn){
-    im = loadImage(fn);
+  MONDAI(String fileName){
+    im = loadImage(dataPath(fileName));
   }
   
   void draw(int x, int y){
-    image(im, x, y);
+    image(this.im, x, y);
   }
 }

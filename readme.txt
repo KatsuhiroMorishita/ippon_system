@@ -1,20 +1,26 @@
-������@�F
-a�`z�L�[     �F�R���̉��_�i�l���ɍ��킹��a���珇�ԂɊ��蓖�āj
-0(�[��)�L�[  �F�w�i��ؑցi�J����<-->���F�j
-1�`9�L�[     �F�J�����̐ؑցi�J�����̑䐔�ɍ��킹��1���珇�ԂɊ��蓖�āj
-TAB�L�[      �F���Z�b�g
-ENTER�L�[    �F�|�C���g�̕\��
+* 操作方法
+a〜zキー     :審判の加点（人数に合わせてaから順番に割り当て）
+0(ゼロ)キー  :背景を切替（カメラ<-->白色）
+1〜9キー     :カメラの切替（カメラの台数に合わせて1から順番に割り当て）
+TABキー      :リセット
+ENTERキー    :ポイントの表示
++           :次の問題へ進む
+-           :前の問題へ進む
+-----------------------------------
 
+* 設定ファイル setup.csv
 
-�ݒ�t�@�C��
+<format>
+カメラ1のID,（カメラが2つ以上あれば）カメラ2以降のID, ・・・
+審判の人数,審判1人の上限数
+</format>
 
-1�s�ځF�J�����̑���,�J����1��ID,�J����2��ID
-�@���J����ID��CameraInfo.txt���Q�l�Ɍ��肷��
+ここで、カメラIDはCameraInfo.txtを参考に決定する。
+CameraInfo.txtは一度正常に起動すると作成されます。
 
-2�s�ځF�R���̐l��,�R��1�l�̏����
+-----------------------------------
 
-
-BGM�F
-�@�t���[���y�f�� Senses Circuit[http://www.senses-circuit.com/]
-�@On-Jin �`���l�`[http://on-jin.com/]
-���g�p���Ă��܂�
+* BGM
+BGMに、以下の音源を使用しています。
+1. フリー音楽素材 Senses Circuit[http://www.senses-circuit.com/]
+2. On-Jin 〜音人〜[http://on-jin.com/]

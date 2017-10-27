@@ -1,5 +1,4 @@
 import ddf.minim.*;
-Minim minim;
 
 class JUDGE{
   float point, weight;
