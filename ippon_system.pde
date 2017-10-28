@@ -43,7 +43,7 @@ AudioSnippet ipponSE; // ippon sound
 Minim minim;
 newBar bar;
 boolean drawReady = false;
-
+boolean ipponSoundPlayedFlag = false; // IPPONを獲得した祭の画像を表示済みだとtrue
 
 
 void readSetupCsv()
@@ -154,16 +154,23 @@ void draw()
   // 必要ならIPPONの描画
   if(bar.isLastShowed())
   {
-    int now = second();
-    if((now - bar.getPassTime()) >= 0.5){
-      ipponSE.play();
-      // show IPPON logo
-      image(ipponIm, width/2-ipponIm.width/2, height/2-ipponIm.height/2);
-      
-      // if you like movie, remove comment out //
-      //ipponMv.play();
-      //image(ipponMv, width/2-(ipponMv.width)/2,height/2-(ipponMv.height)/2-5,ipponMv.width,ipponMv.height);
+    // show IPPON logo
+    image(ipponIm, width/2-ipponIm.width/2, height/2-ipponIm.height/2);
+    // if you like movie, remove comment out //
+    //ipponMv.play();
+    //image(ipponMv, width/2-(ipponMv.width)/2,height/2-(ipponMv.height)/2-5,ipponMv.width,ipponMv.height);
+    
+    // 音を鳴らす（確実に1回）
+    if(ipponSoundPlayedFlag == false){
+      if((second() - bar.getPassTime()) >= 0.5){
+        ipponSE.play();
+        ipponSE.rewind();
+        ipponSoundPlayedFlag = true;
+        println("--IPPON sound played--");
+      }
     }
+  }else{
+    ipponSoundPlayedFlag = false;
   }
 }
 
@@ -190,8 +197,7 @@ void resetStage()
   judgeMems.reset();
   bar.reset();     // 枠の表示されたという状態の初期化
   ipponMv.jump(-ipponMv.duration());
-  ipponMv.pause();
-  ipponSE.rewind();  
+  ipponMv.pause(); 
 }
 
 
