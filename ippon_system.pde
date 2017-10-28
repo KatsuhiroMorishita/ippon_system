@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////
 import processing.video.*;
 import ddf.minim.*;
-
+// --------------------------------------------
 
 
 static int maxPoint = 10; // 最大得点
@@ -30,7 +30,7 @@ boolean camViewEnable = false;
 int nowCamera = 0;
 
 judges judgeMems;     // 審判団オブジェクト
-POINT_IM[] pointIm = new POINT_IM[maxPoint];
+point points;         // 点数を表示するオブジェクト
 int nowMondaiNum = 0; // 画面に写すカメラのindex
 question questions;
 newBar bar;           // 枠を描画するオブジェクト
@@ -38,11 +38,12 @@ newBar bar;           // 枠を描画するオブジェクト
 PImage ipponIm;       // ippon image
 Movie ipponMv;        // ippon movie
 AudioSnippet ipponSE; // ippon sound
-Minim minim;
+Minim minim = new Minim(this);
 
 boolean drawReady = false;
 boolean ipponSoundPlayedFlag = false; // IPPONを獲得した際の画像を表示済みだとtrue
 boolean pointDispFlag = false; // 点数を表示する場合はtrueをセットすること
+// --------------------------------------------
 
 
 // Webカメラの情報をファイルに保存する
@@ -67,7 +68,7 @@ String[] saveCameraInfo()
 }
 
 
-
+// 設定ファイルの読み込みと諸々の設定
 void readSetupCsv()
 {
   // カメラ情報の保存
@@ -78,8 +79,7 @@ void readSetupCsv()
   
   //カメラ設定のセット
   String camSettingVal[] = split(lines[0], ',');
-  int cameraNum = camSettingVal.length;        // 設定カメラ台数
-  int cameraID[] = new int[cameraNum];
+  int cameraID[] = new int[camSettingVal.length];
   for(int i = 0; i < camSettingVal.length; i++){
     cameraID[i] = int(camSettingVal[i]);
   }
@@ -109,17 +109,15 @@ void setup(){
   readSetupCsv();
 
   // 音の読み込み
-  minim = new Minim(this);
-  for(int i = 0; i < maxPoint; i++){
-    String fn = "data/" + i + ".png";
-    pointIm[i] = new POINT_IM(fn, "data/shock1.mp3");
-  }
   ipponIm = loadImage("data/ippon.jpg");
   ipponMv = new Movie(this, "ipponMovie.mp4");
   ipponSE = minim.loadSnippet("data/ta_ge_ootaiko02.mp3");
   
   // 枠のオブジェクトのインスタンス確保（と画像・音源の読み込み）
   bar = new newBar(maxPoint);
+  
+  // 点数の画像のオブジェクトのインスタンス確保
+  points = new point(maxPoint);
   
   //問題の読み込み
   questions = new question();
@@ -140,6 +138,8 @@ void draw()
       cam.get(nowCamera).read();
     }
   }
+  
+  // カメラ画像又は問題の表示
   if(camViewEnable) 
     image(cam.get(nowCamera), 0, 0, width, height);
   else 
@@ -149,7 +149,7 @@ void draw()
   int totalPoint = int(judgeMems.getTotalPoint());
   if(pointDispFlag){
     if(totalPoint <= maxPoint - 1){
-      pointIm[totalPoint].draw(width / 2-pointIm[totalPoint].im.width/2, height/2-pointIm[totalPoint].im.height/2);
+      points.draw(totalPoint);
     }
   }
   
@@ -199,10 +199,10 @@ void stop(){
 // 1画面（問題）における、審判の投票や枠の描画をリセットする
 void resetStage()
 {
-  pointDispFlag = false;
-  camViewEnable = false;
-  judgeMems.reset();
-  bar.reset();     // 枠の表示されたという状態の初期化
+  pointDispFlag = false;  // 点数を非表示
+  camViewEnable = false;  // カメラ画像も非表示
+  judgeMems.reset();      // 審判達の投票も初期化
+  bar.reset();            // 枠の表示されたという状態の初期化
   ipponMv.jump(-ipponMv.duration());
   ipponMv.pause(); 
 }
@@ -229,11 +229,7 @@ void keyPressed()
     resetStage();
   }
   else if(keyCode == ENTER){
-    for(int i = 0; i < pointIm.length; i++){
-      pointIm[i].reset();
-    }
     pointDispFlag = true;
-    //println(round(totalPoint));
   }
   else if(!pointDispFlag){
     // 審査員の加点処理
