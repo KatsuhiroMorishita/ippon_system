@@ -1,22 +1,8 @@
 ///////////////////////////////////////////////////////////////
 //
 // 高専祭企画IPPONグランプリ用画面表示プログラム
-// author: Youhei Iwasaki(original)
+// author: Youhei Iwasaki (original ver.), Katsuhiro Morishita
 // created: 2015/10/14　
-// 
-// ＊＊操作方法
-// 　＊キー操作
-//   　　a～zキー     ：審判の加点（人数に合わせてaから順番に割り当て）
-//   　　0(ゼロ)キー  ：背景を切替（カメラ<-->白色）
-//   　　1～9キー     ：カメラの切替（カメラの台数に合わせて1から順番に割り当て）
-//   　　TABキー      ：リセット
-//   　　ENTERキー    ：ポイントの表示
-//       +            :次の問題へ進む
-//       -            :前の問題へ進む
-//
-// BGM：
-// 　フリー音楽素材 Senses Circuit[http://www.senses-circuit.com/]
-// 　On-Jin ～音人～[http://on-jin.com/]
 //////////////////////////////////////////////////////////////
 import processing.video.*;
 import ddf.minim.*;
