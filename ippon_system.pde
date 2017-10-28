@@ -21,28 +21,25 @@
 import processing.video.*;
 import ddf.minim.*;
 
-// 
+
+
+static int maxPoint = 10; // 最大得点
+
 ArrayList<Capture> cam = new ArrayList(); // カメラ関係
 boolean camViewEnable = false;
 int nowCamera = 0;
 
-
-POINT_IM[] pointIm = new POINT_IM[10];
-
 judges judgeMems;     // 審判団オブジェクト
-
-int mondaiNum = 14;       // 問題数？
-static int maxPoint = 10; // 最大得点
-
-int nowMondaiNum = 0;
-MONDAI[] mondai = new MONDAI[mondaiNum];
+POINT_IM[] pointIm = new POINT_IM[maxPoint];
+int nowMondaiNum = 0; // 画面に写すカメラのindex
+question questions;
+newBar bar;           // 枠を描画するオブジェクト
 
 PImage ipponIm;       // ippon image
 Movie ipponMv;        // ippon movie
 AudioSnippet ipponSE; // ippon sound
-
 Minim minim;
-newBar bar;           // 枠を描画するオブジェクト
+
 boolean drawReady = false;
 boolean ipponSoundPlayedFlag = false; // IPPONを獲得した際の画像を表示済みだとtrue
 boolean pointDispFlag = false; // 点数を表示する場合はtrueをセットすること
@@ -98,7 +95,6 @@ void readSetupCsv()
     for(int i = 0; i < cameraID.length; i++){
       cam.add(new Capture(this, cameras[cameraID[i]]));
       cam.get(i).start();
-      break;
     }
   } 
   return;
@@ -126,11 +122,7 @@ void setup(){
   bar = new newBar(maxPoint);
   
   //問題の読み込み
-  for(int i = 0; i < mondaiNum; i++){
-    String fn = "mondai" + nf(i, 2) + ".png";
-    println(fn);
-    mondai[i] = new MONDAI(fn);
-  }
+  questions = new question();
   
   drawReady = true;
 }
@@ -151,7 +143,7 @@ void draw()
   if(camViewEnable) 
     image(cam.get(nowCamera), 0, 0, width, height);
   else 
-    mondai[nowMondaiNum].draw(0,0);  
+    questions.draw(nowMondaiNum, 0, 0);  
 
   //合計点の表示
   int totalPoint = int(judgeMems.getTotalPoint());
@@ -229,7 +221,7 @@ void keyPressed()
     if(cam.size() > 0) camViewEnable = !(camViewEnable); // カメラのON/OFFを切り替える
   }
   else if(key == '+'){  // nest problem
-    if(nowMondaiNum < mondaiNum-1) nowMondaiNum++;
+    if(nowMondaiNum < questions.length() - 1) nowMondaiNum++;
     resetStage();
   }
   else if(key == '-'){
