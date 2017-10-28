@@ -20,5 +20,5 @@ CameraInfo.txtは一度正常に起動すると作成されます。
 
 # BGM
 BGMに、以下の音源を使用しています。
-1. [フリー音楽素材 Senses Circuit][http://www.senses-circuit.com/]
-2. [On-Jin 〜音人〜][http://on-jin.com/]
+1. [フリー音楽素材 Senses Circuit]:http://www.senses-circuit.com/
+2. [On-Jin 〜音人〜]:http://on-jin.com/
