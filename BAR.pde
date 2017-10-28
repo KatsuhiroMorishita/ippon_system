@@ -1,72 +1,43 @@
 import ddf.minim.*;
 
-class BAR{
-  PImage im;
-  boolean seF = false;
-  boolean imF = false;
-  AudioSnippet se;
-  int sec;
-  
-  BAR (String imageFileName, String soundFileName){
-    this.im = loadImage(imageFileName);
-    this.se = minim.loadSnippet(soundFileName);
-  }
-  
-  void draw(){
-    this.draw(true);
-  }
-  
-  void draw(boolean seflag){
-    image(this.im, 0, 0);
-    if(!this.imF){
-      this.sec = second();
-      if(seflag){
-        this.se.play();
-        this.se.rewind();
-      }
-    }
-    this.imF = true;
-  }  
-  
-  void draw(int x, int y){
-    if(!this.imF) image(this.im, x, y);
-    this.imF = true;
-  }
-  
-  void reset(){
-    this.imF = false;
-    this.seF = false;
-  }
-}
-
-
+Minim varMinim = new Minim(this); // クラスメンバとして使いたいのだが、、、
 
 class newBar
 {
-  private PImage[] image;
-  private AudioSnippet sound;
+  private PImage[] image;      // ポイント数に紐付いた枠の画像のオブジェクトを格納する配列
+  private AudioSnippet player; // 音源を再生させるオブジェクト
   private int maxIndex;
-  private int showedIndex;
-  private float showedTime;
+  private int showedIndex;   // showed index of a image with sound play
+  private float showedTime;  // showed time of a image with sound play
   
+  // コンストラクタ（オブジェクトの初期化）
   newBar(int maxIndex){
     this.reset();
     this.maxIndex = maxIndex;
     
     this.image = new PImage[maxIndex + 1];
     for(int i = 0; i <= maxPoint; i++){
-      String fname = "data/ippon" + nf(i,2)+".png";   // nf is int/float to string
-      this.image[i] = loadImage(fname);
+      String fname = "ippon" + nf(i,2)+".png";   // nf is int/float to string
+      String path  = dataPath(fname);
+      println(path);
+      this.image[i] = loadImage(path);
+      println(this.image[i]);
     }
     
-    this.sound = minim.loadSnippet("data/ta_ta_syun01.mp3");
+    String soundFile = dataPath("ta_ta_syun01.mp3");
+    println(soundFile);
+    this.player = varMinim.loadSnippet(soundFile);
+    print("--bar sound--  ");
+    println(this.player);
   }
   
-  void draw(int index){
-    this.draw(index, true);
+  // 描画する
+  public void drawZero(){
+    image(this.image[0], 0, 0);
   }
   
-  void draw(int index, boolean soundFlag){
+  // 描画する
+  public void drawWithSound(int index){
     if(index < 0 || index > this.maxIndex){
       println("--index is over of index range--");
       return;
@@ -75,24 +46,29 @@ class newBar
     image(this.image[index], 0, 0);
     if(this.showedIndex != index){
       this.showedTime = second();
-      if(soundFlag){
-        this.sound.play();
-        this.sound.rewind();
+      println("--bar sounc play--");
+      if(this.player != null){
+        this.player.play();
+        this.player.rewind(); // 再生が終わったら巻き戻し
+      }else{
+        println("--bar sound is null--");
       }
+      this.showedIndex = index;
     }
-    this.showedIndex = index;
   }  
   
-  boolean isLastShowed(){
+  // 最後の枠の描画が終わっていたらtrueを返す
+  public boolean isLastShowed(){
     return this.showedIndex == this.maxIndex;
   }
   
-  
-  float getPassTime(){
+  // 最後の枠（index > 0）の描画からの時間を取得
+  public float getPassTime(){
     return second() - this.showedTime;
   }
   
-  void reset(){
+  // drawWithSound()により変わった内部変数の初期化（コンストラクタからも呼び出すけど）
+  public void reset(){
     this.showedIndex = -1;
     this.showedTime = second();
   }

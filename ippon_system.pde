@@ -29,7 +29,6 @@ int nowCamera = 0;
 boolean pointDispFlag = false;
 POINT_IM[] pointIm = new POINT_IM[10];
 
-BAR[] bar = new BAR[11];
 int judgeNum = 3;
 int addLimit = 2;
 ArrayList<JUDGE> judge = new ArrayList();
@@ -44,6 +43,9 @@ Movie ipponMv;        // ippon movie
 AudioSnippet ipponSE; // ippon sound
 
 Minim minim;
+newBar bar;
+boolean drawReady = false;
+
 
 
 void readSetupCsv()
@@ -113,23 +115,24 @@ void setup(){
   ipponMv = new Movie(this, "ipponMovie.mp4");
   ipponSE = minim.loadSnippet("data/ta_ge_ootaiko02.mp3");
   
-  // 枠画像と、それに紐づいた音源の読み込み
-  for(int i = 0; i <= maxPoint; i++){
-    String fn = "data/ippon" + nf(i,2)+".png";   // nf is int/float to string
-    bar[i] = new BAR(fn,"data/ta_ta_syun01.mp3");
-  }
+  // 枠のオブジェクトのインスタンス確保（と画像・音源の読み込み）
+  bar = new newBar(maxPoint);
   
-  //問題の画像の読み込み
+  //問題の読み込み
   for(int i = 0; i < mondaiNum; i++){
-    String fn = "mondai" + nf(i,2) + ".png";  // nf()で数字を2桁の文字列にする
+    String fn = "mondai" + nf(i, 2) + ".png";
+    println(fn);
     mondai[i] = new MONDAI(fn);
   }
+  
+  drawReady = true;
 }
 
 
 
 void draw()
 {
+  if(drawReady == false) return;
   background(255);
     
   //合計点の計算
@@ -158,21 +161,22 @@ void draw()
   }
   
   //barの描画
-  bar[0].draw(false); // 枠みたいなもので、必ず描画するらしい
+  bar.drawZero(); // 枠みたいなもので、必ず描画するらしい
   if(round(totalPoint) >= 1) 
-    bar[round(totalPoint)].draw();
+    bar.drawWithSound(round(totalPoint));
   
-  //IPPONの描画
-  if(bar[10].imF)
+  // 必要ならIPPONの描画
+  if(bar.isLastShowed())
   {
     int now = second();
     
-    if(bar[10].sec > now) now += 60;
-    
-    if((now - bar[10].sec) >= 0.5)
+    if((now - bar.getPassTime()) >= 0.5)
     {
       ipponSE.play();
+      // show IPPON logo
       image(ipponIm, width/2-ipponIm.width/2, height/2-ipponIm.height/2);
+      
+      // if you like movie, remove comment out //
       //ipponMv.play();
       //image(ipponMv, width/2-(ipponMv.width)/2,height/2-(ipponMv.height)/2-5,ipponMv.width,ipponMv.height);
     }
@@ -194,31 +198,37 @@ void stop(){
 }
 
 
+// 1画面（問題）における、審判の投票や枠の描画をリセットする
+void resetStage()
+{
+  pointDispFlag = false;
+  for(int i = 0; i < judgeNum; i++){
+    judge.get(i).reset();
+  }
+  
+  bar.reset();     // 枠の表示されたという状態の初期化
+  ipponMv.jump(-ipponMv.duration());
+  ipponMv.pause();
+  ipponSE.rewind();  
+}
+
 
 // キー入力に対する応答
 void keyPressed()
 {
   if(keyCode == TAB){
-    pointDispFlag = false;
-    for(int i = 0; i < judgeNum; i++){
-      judge.get(i).reset();
-    }
-    // 枠の表示されたという状態の初期化
-    for(int i = 0; i < bar.length; i++){
-      bar[i].reset();
-    }
-    ipponMv.jump(-ipponMv.duration());
-    ipponMv.pause();
-    ipponSE.rewind();    
+    resetStage();
   }
   else if(key == '0'){
     if(cam.size() > 0) camViewEnable = !(camViewEnable); // カメラのON/OFFを切り替える
   }
   else if(key == '+'){  // nest problem
     if(nowMondaiNum < mondaiNum-1) nowMondaiNum++;
+    resetStage();
   }
   else if(key == '-'){
     if(nowMondaiNum > 0) nowMondaiNum--;
+    resetStage();
   }
   else if(keyCode == ENTER){
     for(int i = 0; i < pointIm.length; i++){
