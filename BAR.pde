@@ -1,6 +1,6 @@
 import ddf.minim.*;
 
-Minim varMinim = new Minim(this); // クラスメンバとして使いたいのだが、、、
+Minim barMinim = new Minim(this); // クラスメンバとして使いたいのだが、、、
 
 class newBar
 {
@@ -26,7 +26,7 @@ class newBar
     
     String soundFile = dataPath("ta_ta_syun01.mp3");
     println(soundFile);
-    this.player = varMinim.loadSnippet(soundFile);
+    this.player = barMinim.loadSnippet(soundFile);
     print("--bar sound--  ");
     println(this.player);
   }
@@ -45,8 +45,9 @@ class newBar
     
     image(this.image[index], 0, 0);
     if(this.showedIndex != index){
-      this.showedTime = second();
-      println("--bar sounc play--");
+      this.showedTime = second();  // 描画された時刻を覚えておく
+      
+      println("--bar sounc play--"); // 音も鳴らす
       if(this.player != null){
         this.player.play();
         this.player.rewind(); // 再生が終わったら巻き戻し
