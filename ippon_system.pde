@@ -26,14 +26,15 @@ ArrayList<Capture> cam = new ArrayList(); // カメラ関係
 boolean camViewEnable = false;
 int nowCamera = 0;
 
-boolean pointDispFlag = false;
+
 POINT_IM[] pointIm = new POINT_IM[10];
 
-judges judgeMems;
+judges judgeMems;     // 審判団オブジェクト
 
-int mondaiNum = 14;    // 問題数？
-int nowMondaiNum = 0;
+int mondaiNum = 14;       // 問題数？
 static int maxPoint = 10; // 最大得点
+
+int nowMondaiNum = 0;
 MONDAI[] mondai = new MONDAI[mondaiNum];
 
 PImage ipponIm;       // ippon image
@@ -41,13 +42,40 @@ Movie ipponMv;        // ippon movie
 AudioSnippet ipponSE; // ippon sound
 
 Minim minim;
-newBar bar;
+newBar bar;           // 枠を描画するオブジェクト
 boolean drawReady = false;
-boolean ipponSoundPlayedFlag = false; // IPPONを獲得した祭の画像を表示済みだとtrue
+boolean ipponSoundPlayedFlag = false; // IPPONを獲得した際の画像を表示済みだとtrue
+boolean pointDispFlag = false; // 点数を表示する場合はtrueをセットすること
+
+
+// Webカメラの情報をファイルに保存する
+String[] saveCameraInfo()
+{
+  String cameras[] = Capture.list(); // アクセス可能なカメラの一覧を取得
+  
+  if (cameras.length == 0) {
+    println("There are no cameras available for capture.");
+  } else {
+    PrintWriter output = createWriter("CameraInfo.txt");
+    println("Available cameras:");
+    for (int i = 0; i < cameras.length; i++) {
+      println("[" + i + "]" + cameras[i]);
+      output.println("[" + i + "]" + cameras[i]);
+    }
+    output.flush(); //ストリームをフラッシュする
+    output.close(); //ストリームをクローズする
+  } 
+  
+  return cameras;
+}
+
 
 
 void readSetupCsv()
 {
+  // カメラ情報の保存
+  String cameras[] = saveCameraInfo();
+  
   //設定ファイルの読み込み
   String lines[] = loadStrings("setup.csv");
   
@@ -62,29 +90,16 @@ void readSetupCsv()
   println(cameraID);
   
   //審判設定のセット
-  String judgeSettingVal[] = split(lines[1], ',');
-  int judgeNum = int(judgeSettingVal[0]);               // 審判数
+  int judgeNum = int(lines[1]);               // 審判数
   judgeMems = new judges(judgeNum, maxPoint, maxPoint);
   
   //Webカメラのセットアップ
-  String cameras[] = Capture.list(); // アクセス可能なカメラの一覧を取得
-  
-  if (cameras.length == 0) {
-    println("There are no cameras available for capture.");
-  } else {
-    PrintWriter output = createWriter("CameraInfo.txt");
-    println("Available cameras:");
-    for (int i = 0; i < cameras.length; i++) {
-      println("[" + i + "]" + cameras[i]);
-      output.println("[" + i + "]" + cameras[i]);
-    }
-    for(int i = 0; i < cameraNum; i++){ // cameraNum
+  if (cameras.length > 0) {
+    for(int i = 0; i < cameraID.length; i++){
       cam.add(new Capture(this, cameras[cameraID[i]]));
       cam.get(i).start();
       break;
     }
-    output.flush(); //ストリームをフラッシュする
-    output.close(); //ストリームをクローズする
   } 
   return;
 }

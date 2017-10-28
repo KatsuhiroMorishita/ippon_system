@@ -38,6 +38,8 @@ class judges
   float totalPointLimit;
   
   judges(int memberNum, float totalPointLimit, int totalVoteTimesLimit){
+    if(memberNum == 0)
+      println("--error: the judge member is zero.--");
     this.totalPointLimit = totalPointLimit;
     
     float pointUnit = totalPointLimit / totalVoteTimesLimit;
