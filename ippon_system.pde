@@ -1,5 +1,4 @@
 ///////////////////////////////////////////////////////////////
-//
 // 高専祭企画IPPONグランプリ用画面表示プログラム
 // author: Youhei Iwasaki (original ver.), Katsuhiro Morishita
 // created: 2015/10/14　
