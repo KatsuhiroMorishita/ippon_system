@@ -29,9 +29,7 @@ int nowCamera = 0;
 boolean pointDispFlag = false;
 POINT_IM[] pointIm = new POINT_IM[10];
 
-int judgeNum = 3;
-int addLimit = 2;
-ArrayList<JUDGE> judge = new ArrayList();
+judges judgeMems;
 
 int mondaiNum = 14;    // 問題数？
 int nowMondaiNum = 0;
@@ -65,14 +63,8 @@ void readSetupCsv()
   
   //審判設定のセット
   String judgeSettingVal[] = split(lines[1], ',');
-  judgeNum = int(judgeSettingVal[0]);  // 審判数
-  addLimit = int(judgeSettingVal[1]);  // 審判当たりの投票できる点数
-  float w = (float)maxPoint / judgeNum / addLimit; // 1人1票当たりの点数かな？
-  for(int i = 0; i < judgeNum; i++){
-    judge.add(new JUDGE(addLimit, w, (char)('a' + i)));
-    //println(judge.get(i).keyID);
-  }
-  //println(judge.size());
+  int judgeNum = int(judgeSettingVal[0]);               // 審判数
+  judgeMems = new judges(judgeNum, maxPoint, maxPoint);
   
   //Webカメラのセットアップ
   String cameras[] = Capture.list(); // アクセス可能なカメラの一覧を取得
@@ -134,15 +126,8 @@ void draw()
 {
   if(drawReady == false) return;
   background(255);
-    
-  //合計点の計算
-  float totalPoint = 0.0;
-  for(int i=0; i < judgeNum; i++){
-    //println("["+i+"]"+judge.get(i).point);
-    totalPoint += judge.get(i).point;
-  }
-
-  //背景の描画
+  
+  // Webカメラを背景に描画
   if(cam.size() > 0){
     if(cam.get(nowCamera).available() == true) {
       cam.get(nowCamera).read();
@@ -154,24 +139,23 @@ void draw()
     mondai[nowMondaiNum].draw(0,0);  
 
   //合計点の表示
+  int totalPoint = int(judgeMems.getTotalPoint());
   if(pointDispFlag){
-    if(round(totalPoint) <= maxPoint - 1){
-      pointIm[round(totalPoint)].draw(width / 2-pointIm[round(totalPoint)].im.width/2, height/2-pointIm[round(totalPoint)].im.height/2);
+    if(totalPoint <= maxPoint - 1){
+      pointIm[totalPoint].draw(width / 2-pointIm[totalPoint].im.width/2, height/2-pointIm[totalPoint].im.height/2);
     }
   }
   
   //barの描画
   bar.drawZero(); // 枠みたいなもので、必ず描画するらしい
-  if(round(totalPoint) >= 1) 
-    bar.drawWithSound(round(totalPoint));
+  if(totalPoint >= 1) 
+    bar.drawWithSound(totalPoint);
   
   // 必要ならIPPONの描画
   if(bar.isLastShowed())
   {
     int now = second();
-    
-    if((now - bar.getPassTime()) >= 0.5)
-    {
+    if((now - bar.getPassTime()) >= 0.5){
       ipponSE.play();
       // show IPPON logo
       image(ipponIm, width/2-ipponIm.width/2, height/2-ipponIm.height/2);
@@ -191,7 +175,7 @@ void movieEvent(Movie m)
 }
 
 
-
+// デスコンストラクタ的に使われるのだろうか・・・？
 void stop(){
   minim.stop();
   super.stop();
@@ -202,10 +186,8 @@ void stop(){
 void resetStage()
 {
   pointDispFlag = false;
-  for(int i = 0; i < judgeNum; i++){
-    judge.get(i).reset();
-  }
-  
+  camViewEnable = false;
+  judgeMems.reset();
   bar.reset();     // 枠の表示されたという状態の初期化
   ipponMv.jump(-ipponMv.duration());
   ipponMv.pause();
@@ -216,6 +198,9 @@ void resetStage()
 // キー入力に対する応答
 void keyPressed()
 {
+  print("--key pressed-- ");
+  println(str(key));
+  
   if(keyCode == TAB){
     resetStage();
   }
@@ -237,12 +222,11 @@ void keyPressed()
     pointDispFlag = true;
     //println(round(totalPoint));
   }
-  else if(!pointDispFlag){    // 審査員の加点処理
-    for(int i = 0; i < judgeNum; i++){
-      if(key == judge.get(i).keyID){  // 個々の審査員をkeyで区別する
-        judge.get(i).AddPoint();
-      }
-    }
+  else if(!pointDispFlag){
+    // 審査員の加点処理
+    judgeMems.vote(str(key)); 
+    
+    // カメラ切り替え処理
     for(int i = 0; i < cam.size(); i++){
       if(key == ('1' + i)) nowCamera = i;
     }
