@@ -16,7 +16,7 @@ int nowCamera = 0;
 
 judges judgeMems;     // 審判団オブジェクト
 point points;         // 点数を表示するオブジェクト
-int nowMondaiNum = 0; // 画面に写すカメラのindex
+int nowMondaiNum = 0; // 画面に映すカメラのindex
 question questions;
 newBar bar;           // 枠を描画するオブジェクト
 
