@@ -104,7 +104,7 @@ void readSetupCsv()
 
 
 void setup(){
-  size(1280, 720); // windows size
+  size(1280, 720); // window size
   
   readSetupCsv();
 
