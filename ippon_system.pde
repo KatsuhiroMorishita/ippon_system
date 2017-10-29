@@ -216,13 +216,18 @@ void keyPressed()
   else if(keyCode == ENTER){
     pointDispFlag = true;
   }
-  else if(!pointDispFlag){
-    // 審査員の加点処理
+  else if(!pointDispFlag && 'a' <= key && key <= 'z'){    // 審査員の加点処理
+    println("--vote--");
     judgeMems.vote(str(key)); 
-    
-    // カメラ切り替え処理
+  }
+  else if(!pointDispFlag && '1' <= key && key <= '9'){    // カメラ切り替え処理
     for(int i = 0; i < cam.size(); i++){
-      if(key == ('1' + i)) nowCamera = i;
+      if(key == ('1' + i)) {
+        nowCamera = i;
+        println("--camera changed--");
+        print("camera ID ");
+        println(nowCamera);
+      }
     }
   }
 }
