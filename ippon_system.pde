@@ -201,13 +201,13 @@ void keyPressed()
   print("--key pressed-- ");
   println(str(key));
   
-  if(keyCode == TAB){
+  if(keyCode == TAB){  // reset voted point
     resetStage();
   }
-  else if(key == '0'){
-    if(cam.size() > 0) camViewEnable = !(camViewEnable); // カメラのON/OFFを切り替える
+  else if(key == '0'){ // カメラのON/OFFを切り替える
+    if(cam.size() > 0) camViewEnable = !(camViewEnable); 
   }
-  else if(key == '+'){  // nest problem
+  else if(key == '+'){  // next problem
     if(nowMondaiNum < questions.length() - 1) nowMondaiNum++;
     resetStage();
   }
@@ -215,7 +215,7 @@ void keyPressed()
     if(nowMondaiNum > 0) nowMondaiNum--;
     resetStage();
   }
-  else if(keyCode == ENTER){
+  else if(keyCode == ENTER){ // 点数の表示
     pointDispFlag = true;
   }
   else if(!pointDispFlag && 'a' <= key && key <= 'z'){    // 審査員の加点処理
