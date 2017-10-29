@@ -8,7 +8,7 @@ class newBar
   private AudioSnippet player; // 音源を再生させるオブジェクト
   private int maxIndex;
   private int showedIndex;   // showed index of a image with sound play
-  private float showedTime;  // showed time of a image with sound play
+  private long showedTime;   // showed time of a image with sound play
   
   // コンストラクタ（オブジェクトの初期化）
   newBar(int maxIndex){
@@ -45,7 +45,7 @@ class newBar
     
     image(this.image[index], 0, 0);
     if(this.showedIndex != index){
-      this.showedTime = second();  // 描画された時刻を覚えておく
+      this.showedTime = millis();  // 描画された時刻を覚えておく
       
       println("--bar sounc play--"); // 音も鳴らす
       if(this.player != null){
@@ -65,13 +65,13 @@ class newBar
   
   // 最後の枠（index > 0）の描画からの時間を取得
   public float getPassTime(){
-    return second() - this.showedTime;
+    return (millis() - this.showedTime) / 1000.0;
   }
   
   // drawWithSound()により変わった内部変数の初期化（コンストラクタからも呼び出すけど）
   public void reset(){
     this.showedIndex = -1;
-    this.showedTime = second();
+    this.showedTime = millis();
   }
 
 }

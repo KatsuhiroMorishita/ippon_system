@@ -146,15 +146,17 @@ void draw()
   // 必要ならIPPONの描画
   if(bar.isLastShowed())
   {
-    // show IPPON logo
-    image(ipponIm, width/2-ipponIm.width/2, height/2-ipponIm.height/2);
-    // if you like movie, remove comment out //
-    //ipponMv.play();
-    //image(ipponMv, width/2-(ipponMv.width)/2,height/2-(ipponMv.height)/2-5,ipponMv.width,ipponMv.height);
+    if(ipponSoundPlayedFlag == true){
+      // show IPPON logo
+      image(ipponIm, width/2-ipponIm.width/2, height/2-ipponIm.height/2);
+      // if you like movie, remove comment out //
+      //ipponMv.play();
+      //image(ipponMv, width/2-(ipponMv.width)/2,height/2-(ipponMv.height)/2-5,ipponMv.width,ipponMv.height);
+    }
     
     // 音を鳴らす（確実に1回）
     if(ipponSoundPlayedFlag == false){
-      if((second() - bar.getPassTime()) >= 0.5){
+      if(bar.getPassTime() >= 0.05){   // この遅延処理は必要なのか？
         ipponSE.play();
         ipponSE.rewind();
         ipponSoundPlayedFlag = true;
