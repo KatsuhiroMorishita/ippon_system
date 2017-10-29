@@ -9,12 +9,12 @@ class point
 {
   private PImage[] images;     // 点数の画像を格納する
   private AudioSnippet player; // 音源を再生させるオブジェクト
-  private float drawTime;
+  private long drawTime;
   
   // コンストラクタ
   point(int maxPoint){
     this.images = new PImage[maxPoint]; // 最大が10点なら、0-9点分を読み込む
-    this.drawTime = second();
+    this.drawTime = millis();
     
     for(int i = 0; i < maxPoint; i++){
       String fname = i + ".png";
@@ -45,11 +45,18 @@ class point
       int y = height / 2 - img.height / 2;
       image(img, x, y);
       
-      if(second() - this.drawTime > 1){ // 毎回最初の描画直後にしか音を鳴らしたくない
-        this.player.play();
-        this.player.rewind();
+      print("--pass time-- ");
+      println(millis() - this.drawTime);
+      if(millis() - this.drawTime > 200){  // 毎回最初の描画直後にしか音を鳴らしたくない
+        println("--point sound play--");
+        if(this.player != null){
+          this.player.play();
+          this.player.rewind();          // 再生が終わったら巻き戻し
+        }else{
+          println("--point sound is null--");
+        }
       }
-      this.drawTime = second();
+      this.drawTime = millis();
     }
   }
 }
