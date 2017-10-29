@@ -60,7 +60,7 @@ void readSetupCsv()
   String cameras[] = saveCameraInfo();
   
   //設定ファイルの読み込み
-  String lines[] = loadStrings("setup.csv");
+  String lines[] = loadStrings("setup.txt");
   
   //カメラ設定のセット
   String camSettingVal[] = split(lines[0], ',');
