@@ -12,12 +12,12 @@ static int maxPoint = 10; // 最大得点
 
 ArrayList<Capture> cam = new ArrayList(); // カメラ関係
 boolean camViewEnable = false;
-int nowCamera = 0;
+int nowCamera = 0;    // 画面に映すカメラのindex
 
 judges judgeMems;     // 審判団オブジェクト
 point points;         // 点数を表示するオブジェクト
-int nowMondaiNum = 0; // 画面に映すカメラのindex
-question questions;
+int nowMondaiNum = 0; // 画面に映す問題のindex
+question questions;   // 問題のオブジェクト
 newBar bar;           // 枠を描画するオブジェクト
 
 PImage ipponIm;       // ippon image
