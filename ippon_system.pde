@@ -22,7 +22,7 @@ newBar bar;           // 枠を描画するオブジェクト
 
 PImage ipponIm;       // ippon image
 Movie ipponMv;        // ippon movie
-AudioSnippet ipponSE; // ippon sound
+AudioPlayer ipponSE;  // ippon sound
 Minim minim = new Minim(this);
 
 boolean drawReady = false;
@@ -49,6 +49,10 @@ String[] saveCameraInfo()
     output.close(); //ストリームをクローズする
   } 
   
+  if (cameras.length == 0){
+    println("caution: There is no cameras.");
+  }
+  
   return cameras;
 }
 
@@ -68,7 +72,7 @@ void readSetupCsv()
   for(int i = 0; i < camSettingVal.length; i++){
     cameraID[i] = int(camSettingVal[i]);
   }
-  println("--cameraID--");
+  println("--load camera ID setting--");
   println(cameraID);
   
   //審判設定のセット
@@ -96,7 +100,7 @@ void setup(){
   // 音の読み込み
   ipponIm = loadImage("data/ippon.jpg");
   ipponMv = new Movie(this, "ipponMovie.mp4");
-  ipponSE = minim.loadSnippet("data/ta_ge_ootaiko02.mp3");
+  ipponSE = minim.loadFile("data/ta_ge_ootaiko02.mp3");
   
   // 枠のオブジェクトのインスタンス確保（と画像・音源の読み込み）
   bar = new newBar(maxPoint);
