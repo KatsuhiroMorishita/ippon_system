@@ -93,7 +93,7 @@ void readSetupCsv()
   if (cameras.length > 0) {
     for(int i = 0; i < cameraID.length; i++){
       var id_ = cameraID[i];
-      if (id_ < cameraID.length){
+      if (id_ < cameras.length){   // 変なカメラ番号が使われないようにする
         cam.add(new Capture(this, cameras[id_]));
         cam.get(i).start();
       }
