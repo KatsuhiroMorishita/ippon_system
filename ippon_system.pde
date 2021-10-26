@@ -36,6 +36,14 @@ String[] saveCameraInfo()
 {
   String cameras[] = Capture.list(); // アクセス可能なカメラの一覧を取得
   
+  // カメラのリストが得られるまで、ひたすら待つ（video libのバージョンアップ対応）
+  while (cameras.length == 0) {
+    cameras = Capture.list();
+    println("camera waiting...");
+    delay(100);
+  }
+  
+  
   if (cameras.length == 0) {
     println("There are no cameras available for capture.");
   } else {
@@ -82,8 +90,11 @@ void readSetupCsv()
   //Webカメラのセットアップ
   if (cameras.length > 0) {
     for(int i = 0; i < cameraID.length; i++){
-      cam.add(new Capture(this, cameras[cameraID[i]]));
-      cam.get(i).start();
+      var id_ = cameraID[i];
+      if (id_ < cameraID.length){
+        cam.add(new Capture(this, cameras[id_]));
+        cam.get(i).start();
+      }
     }
   } 
   return;
@@ -184,6 +195,17 @@ void movieEvent(Movie m)
 void stop(){
   minim.stop();
   super.stop();
+}
+
+// 終了時に呼び出される
+void dispose() {
+  // カメラの停止
+  for(int i = 0; i < cam.size(); i++){
+    cam.get(i).stop();
+  }
+  
+  stop();
+  println("exit.");
 }
 
 

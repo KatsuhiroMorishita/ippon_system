@@ -1,15 +1,1 @@
-[0]name=FaceTime HD Camera,size=1280x720,fps=30
-[1]name=FaceTime HD Camera,size=1280x720,fps=15
-[2]name=FaceTime HD Camera,size=1280x720,fps=1
-[3]name=FaceTime HD Camera,size=640x360,fps=30
-[4]name=FaceTime HD Camera,size=640x360,fps=15
-[5]name=FaceTime HD Camera,size=640x360,fps=1
-[6]name=FaceTime HD Camera,size=320x180,fps=30
-[7]name=FaceTime HD Camera,size=320x180,fps=15
-[8]name=FaceTime HD Camera,size=320x180,fps=1
-[9]name=FaceTime HD Camera,size=160x90,fps=30
-[10]name=FaceTime HD Camera,size=160x90,fps=15
-[11]name=FaceTime HD Camera,size=160x90,fps=1
-[12]name=FaceTime HD Camera,size=80x45,fps=30
-[13]name=FaceTime HD Camera,size=80x45,fps=15
-[14]name=FaceTime HD Camera,size=80x45,fps=1
+[0]UCAM-DLE300T
