@@ -1,8 +1,10 @@
 ///////////////////////////////////////////////////////////////
 // 高専祭企画IPPONグランプリ用画面表示プログラム
 // author: Youhei Iwasaki (original ver.), Katsuhiro Morishita
+// memo: ディスプレイ解像度を1280×720としてください。
 // history: 
 //   2021-10-26 カメラライブラリの更新に対応。Processing 4でないとエラーが出る。（笑）
+//   2021-10-27 タイトルバーが表示されるようになっていたので、対応
 // created: 2015/10/14　
 //////////////////////////////////////////////////////////////
 import processing.video.*;
@@ -105,8 +107,10 @@ void readSetupCsv()
 
 
 
+
 void setup(){
-  size(1280, 720); // window size
+  //size(1280, 720); // window size
+  fullScreen();      // タイトルバーも隠すならこちら
   
   readSetupCsv();
 
